@@ -1,7 +1,7 @@
-Execute the MPI code by typing this command in your console:
+# Execute the MPI code by typing this command in your console:
 mpiexec -n NUMOFPROCESS python CODEFILEPATH INPUTFILEPATH
 
-Execute the MapReduce code by typing this command in your console:
+# Execute the MapReduce code by typing this command in your console:
 type INPUTFILEPATH | python MAPPERFILEPATH | sort | python REDUCERFILEPATH
 
 The command above is just for running mapreduce in local.
