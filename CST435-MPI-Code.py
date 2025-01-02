@@ -28,6 +28,9 @@ comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()
 
+# Start timing the entire program
+start_time = MPI.Wtime()
+
 # Read input data from the file in rank 0
 if rank == 0:
     if len(sys.argv) < 2:
@@ -60,3 +63,8 @@ if rank == 0:
     for chunk in sorted_chunks:
         sorted_data = merge(sorted_data, chunk)
     print(f"Sorted data: {sorted_data}")  # Display the sorted data
+
+# End timing and print the elapsed time
+end_time = MPI.Wtime()
+if rank == 0:
+    print(f"Execution Time: {end_time - start_time:.6f} seconds")
