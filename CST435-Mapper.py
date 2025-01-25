@@ -10,7 +10,8 @@ def mapper():
         for num in numbers:
             print(f'1\t{num}')
     end_time = time.time()  # End timing
-    print(f"Mapper Execution Time: {end_time - start_time:.6f} seconds", file=sys.stderr)
-
+    print(f'MapperExecutionTime\t{end_time - start_time:.6f}')
+    print(f"Mapper Execution Time: {end_time - start_time:.6f} seconds")
+    
 if __name__ == '__main__':
     mapper()
