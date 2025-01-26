@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mpi-sort
+spec:
+  replicas: 1  # Number of pods (can remain 1 for testing)
+  selector:
+    matchLabels:
+      app: mpi-sort
+  template:
+    metadata:
+      labels:
+        app: mpi-sort
+    spec:
+      containers:
+      - name: mpi-container
+        image: yeoh0730/mpi-python:latest
+        command: ["mpirun", "--allow-run-as-root", "-np", "4", "python3", "/app/CST435-MPI-Code.py", "/app/MergeSortInput.txt"]
+        env:  # Add environment variables here
+        - name: PATH
+          value: "/usr/local/bin:/usr/bin:/bin"
+        - name: LD_LIBRARY_PATH
+          value: "/usr/local/lib:/usr/lib:/lib"
+        volumeMounts:
+        - name: dataset-volume
+          mountPath: /app/MergeSortInput.txt
+          subPath: MergeSortInput1.txt
+      volumes:
+      - name: dataset-volume
+        persistentVolumeClaim:
+          claimName: large-dataset-pvc  # Name of your PersistentVolumeClaim
+      nodeSelector:
+          kubernetes.io/hostname: worker-virtualbox

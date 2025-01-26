@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mpi-sort
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mpi-sort
+  template:
+    metadata:
+      labels:
+        app: mpi-sort
+    spec:
+      containers:
+      - name: mpi-container
+        image: yeoh0730/mpi-python:latest
+        command: ["mpirun", "--allow-run-as-root", "-np", "4", "python3", "/app/CST435-MPI-Code.py", "/app/MergeSortInput.txt"]
+        volumeMounts:
+        - name: input-file
+          mountPath: /app/MergeSortInput.txt
+          subPath: MergeSortInput.txt
+      volumes:
+      - name: input-file
+        configMap:
+          name: merge-sort-input
+      nodeSelector:
+        kubernetes.io/hostname: worker-virtualbox
